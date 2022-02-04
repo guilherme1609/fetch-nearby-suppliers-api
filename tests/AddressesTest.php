@@ -34,6 +34,8 @@ class AddressesTest extends TestCase
 		$this->assertResponseOk();
 		$this->assertEquals($response['status'], 'success', 'Searching for address test');
 		$this->assertNotEmpty($response['data']);
+		$this->assertIsArray($response['data']);
+		$this->assertTrue(count($response['data']) > 0);
 	}
 
 	private function serchForUnknownAddress()

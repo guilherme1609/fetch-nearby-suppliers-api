@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Interfaces\AddressesInterface;
+use App\Http\Domain\CustomersAddressesDomain;
 use App\Models\CustomersAddresses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,8 @@ class CustomersAddressesController extends Controller implements AddressesInterf
 	{
 		$user = Auth::guard()->user();
 		$customerId = $user->customers_id;
-		$res = App()->make('App\Http\Infra\CustomersAddressesRepository')
-			->fetchCustomerAddresses($customerId);
+		$customerAddressesDomain = new CustomersAddressesDomain();
+		$res = $customerAddressesDomain->getCustomerAddresses($customerId);
 
 		if ($res && count($res) > 0) {
 			return response()->json(['status' => 'success', 'data' => $res]);

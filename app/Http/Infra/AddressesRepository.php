@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class AddressesRepository
 {
-	public function fetchAddress($address)
+	public function searchAddress($address)
 	{
 		return DB::table('addresses')->select(
 			'id',

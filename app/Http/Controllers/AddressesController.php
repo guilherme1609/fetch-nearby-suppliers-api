@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Domain\AddressesDomain;
 use Illuminate\Http\Request;
 
 class AddressesController extends Controller
@@ -16,7 +17,8 @@ class AddressesController extends Controller
 				'message' => 'É preciso informar um endereço válido no formato: Rua, numero, cidade, estado.'
 			]);
 		}
-		$res = App()->make('App\Http\Infra\AddressesRepository')->fetchAddress($address);
+		$addressesDomain = new AddressesDomain();
+		$res = $addressesDomain->getAddress($address);
 		if (!$res) {
 			return response()->json([
 				'status' => 'error',

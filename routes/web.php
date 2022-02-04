@@ -27,6 +27,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 	$router->group(['middleware' => 'auth:api', 'prefix' => '/customers'], function () use ($router) {
 		$router->get('/addresses', 'CustomersAddressesController@index');
 		$router->post('/store', 'CustomersAddressesController@store');
+		// Fetch all suppliers of customer
+		$router->get('/suppliers', 'CustomersController@fetchAllNearbySuppliers');
 		$router->put('/update/{id}', 'CustomersAddressesController@update');
 		$router->delete('/delete/{id}', 'CustomersAddressesController@delete');
 	});
