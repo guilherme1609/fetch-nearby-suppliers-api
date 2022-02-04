@@ -16,6 +16,7 @@ class CreateCustomersAddressesTable extends Migration
         Schema::create('customers_addresses', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('name', 45);
+			$table->smallInteger('main_address')->default(0);
 			$table->unsignedInteger('customers_id');
 			$table->foreign('customers_id')->references('id')->on('customers');
 			$table->unsignedInteger('addresses_id');

@@ -5,18 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Interfaces\AddressesInterface;
 use App\Models\CustomersAddresses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomersAddressesController extends Controller implements AddressesInterface
 {
 	public function index()
 	{
-		// $customerId = pegar da sessao
+		$user = Auth::guard()->user();
+		$customerId = $user->customers_id;
 		$res = App()->make('App\Http\Infra\CustomersAddressesRepository')
-			->fetchCustomerAddresses(1);
+			->fetchCustomerAddresses($customerId);
 
 		if ($res && count($res) > 0) {
 			return response()->json(['status' => 'success', 'data' => $res]);
-		} else if ($res && count($res) == 0) {
+		} else if (!$res || count($res) == 0) {
 			return response()->json(['status' => 'success', 'data' => $res, 'message' => 'Você ainda não possui um endereço cadastrado!']);
 		} else {
 			return response()->json(['status' => 'error', 'message' => 'Não foi possível carregar os endereços, por favor tente mais tarde!']);
@@ -26,8 +28,9 @@ class CustomersAddressesController extends Controller implements AddressesInterf
 	{
 		try {
 			$customersAddresses = new CustomersAddresses();
-			$customersAddresses->customers_id = 1; // Mudar para id da sessao
-			$customersAddresses->name = $request->post('name'); // Mudar para id da sessao
+			$user = Auth::guard()->user();
+			$customersAddresses->customers_id = $user->customers_id;
+			$customersAddresses->name = $request->post('name');
 			$customersAddresses->addresses_id = $request->post('addresses_id');
 			if ($customersAddresses->save()) {
 				return response()->json(['status' => 'success', 'message' => 'Endereço cadastrado!']);
@@ -40,7 +43,8 @@ class CustomersAddressesController extends Controller implements AddressesInterf
 	{
 		try {
 			$customersAddresses = CustomersAddresses::findOrFail($id);
-			$customersAddresses->customers_id = 1; // Mudar para id da sessao
+			$user = Auth::guard()->user();
+			$customersAddresses->customers_id = $user->customers_id;
 			$customersAddresses->name = $request->post('name');
 			$customersAddresses->addresses_id = $request->post('addresses_id');
 			if ($customersAddresses->save()) {

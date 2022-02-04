@@ -2,33 +2,29 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
-
 /* Deve conter uma rota que retorne o cliente com os fornecedores que o atendem */
 
 $router->group(['prefix' => 'api'], function () use ($router) {
 
-	$router->group(['prefix' => '/suppliers'], function () use ($router) {
+	$router->group(['prefix' => 'auth'], function () use ($router) {
+		$router->post('/register', 'UserController@register');
+		$router->post('/login', 'UserController@login');
+		$router->get('/me', 'UserController@me');
+		$router->post('/logout', 'UserController@logout');
+	});
+
+	$router->group(['middleware' => 'auth:api', 'prefix' => '/suppliers'], function () use ($router) {
 		// Search for nearby suppliers
 		$router->get('/fetch-nearby', 'SuppliersController@fetchSuppliers');
 	});
 
-	$router->group(['prefix' => '/address'], function () use ($router) {
+	$router->group(['middleware' => 'auth:api', 'prefix' => '/address'], function () use ($router) {
 		// Search for address
-		$router->get('/fetch-address', 'AddressesController@fetchAddress');
+		$router->get('/search-addresses', 'AddressesController@searchAddresses');
 	});
 
 	// Customers addresses group
-	$router->group(['prefix' => '/customers'], function () use ($router) {
+	$router->group(['middleware' => 'auth:api', 'prefix' => '/customers'], function () use ($router) {
 		$router->get('/addresses', 'CustomersAddressesController@index');
 		$router->post('/store', 'CustomersAddressesController@store');
 		$router->put('/update/{id}', 'CustomersAddressesController@update');

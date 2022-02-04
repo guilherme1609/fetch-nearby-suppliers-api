@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class AddressesController extends Controller
 {
-	public function fetchAddress(Request $request)
+	public function searchAddresses(Request $request)
 	{
 		$address = $request->get('address');
 		// Av. N. Sra. Aparecida, 582, Curitiba, PR

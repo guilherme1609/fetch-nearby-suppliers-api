@@ -14,9 +14,9 @@ class CustomersAddresses extends Model
 		'deleted_at', 'created_at', 'updated_at'
 	];
 
-	protected $fillable = ['id', 'name', 'customers_id', 'addresses_id'];
+	protected $fillable = ['id', 'name', 'main_address','customers_id', 'addresses_id'];
 
-	protected $visible = ['id', 'name', 'customers_id', 'addresses_id'];
+	protected $visible = ['id', 'name', 'main_address','customers_id', 'addresses_id'];
 
 	protected $table = 'customers_addresses';
 

@@ -9,6 +9,7 @@ class AddressesRepository
 	public function fetchAddress($address)
 	{
 		return DB::table('addresses')->select(
+			'id',
 			'street',
 			'number',
 			'postal_code',

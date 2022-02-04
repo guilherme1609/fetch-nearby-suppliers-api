@@ -7,41 +7,39 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Lumen\Auth\Authorizable;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
-{
-    use Authenticatable, Authorizable, HasFactory, SoftDeletes;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-	protected $dates = [
-		'deleted_at', 'created_at', 'updated_at'
+class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
+{
+	use Authenticatable, Authorizable, HasFactory;
+
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+		'email', 'password', 'customers_id'
 	];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'email', 'customers_id'
-    ];
+	/**
+	 * The attributes excluded from the model's JSON form.
+	 *
+	 * @var array
+	 */
+	protected $hidden = [
+		'password',
+	];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-    ];
-
-	protected $visible = ['email', 'customers_id'];
-
-	protected $table = 'users';
-
-	public function customer()
+	public function getJWTIdentifier()
 	{
-		return $this->belongsTo('App\Models\Customers');
+		return $this->getKey();
+	}
+
+	public function getJWTCustomClaims()
+	{
+		return [];
 	}
 }

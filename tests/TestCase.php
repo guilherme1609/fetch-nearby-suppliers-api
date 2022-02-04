@@ -9,8 +9,12 @@ abstract class TestCase extends BaseTestCase
      *
      * @return \Laravel\Lumen\Application
      */
+	public $faker;
+	public $token;
+
     public function createApplication()
     {
+		$this->faker = Faker\Factory::create();
         return require __DIR__.'/../bootstrap/app.php';
     }
 }

@@ -12,9 +12,23 @@ class CustomerAddressesTest extends TestCase
      *
      * @return void
      */
+	private function createSession()
+	{
+		$login = [
+			"email"=> "usuariophpunit@phpunit.com",
+			"password"=> "123456789"
+		];
+
+		$this->post('api/auth/login', $login);
+		$response = (array) json_decode($this->response->content(), true);
+		if ($response) {
+			$this->token = $response['token']['original']['token'];
+		}
+	}
+
 	private function fetchCustomerAddresses()
 	{
-		$this->get('api/customers/addresses');
+		$this->get('api/customers/addresses', ['Authorization' => 'Bearer ' . $this->token]);
 		$response = (array) json_decode($this->response->content());
 		$this->assertResponseOk();
 		$this->assertEquals($response['status'], 'success', 'Searching for address of customers test');
@@ -28,7 +42,7 @@ class CustomerAddressesTest extends TestCase
 			'addresses_id'=>2
 		];
 
-		$this->post('api/customers/store', $data);
+		$this->post('api/customers/store', $data, ['Authorization'=>'Bearer '.$this->token]);
 		$response = (array) json_decode($this->response->content());
 		$this->assertResponseOk();
 		$this->assertEquals($response['status'], 'success', 'Store for address of customers test');
@@ -40,7 +54,7 @@ class CustomerAddressesTest extends TestCase
 			'name'=>'casa da mãe',
 			'addresses_id'=>3
 		];
-		$this->put('api/customers/update/1', $data);
+		$this->put('api/customers/update/1', $data, ['Authorization'=>'Bearer '.$this->token]);
 		$response = (array) json_decode($this->response->content());
 		$this->assertResponseOk();
 		$this->assertEquals($response['status'], 'success', 'Update address of customers test');
@@ -52,7 +66,7 @@ class CustomerAddressesTest extends TestCase
 			'name'=>'casa',
 			'addresses_id'=>1
 		];
-		$this->put('api/customers/update/1', $data);
+		$this->put('api/customers/update/1', $data, ['Authorization'=>'Bearer '.$this->token]);
 		$response = (array) json_decode($this->response->content());
 		$this->assertResponseOk();
 		$this->assertEquals($response['status'], 'success', 'Update address of customers test');
@@ -61,7 +75,7 @@ class CustomerAddressesTest extends TestCase
 	private function deleteCustomerAddresses()
 	{
 		$lastCustomerAddressesId = DB::table('customers_addresses')->select('id')->whereNull('deleted_at')->orderBy('id', 'desc')->limit(1)->first()->id;
-		$this->delete("api/customers/delete/$lastCustomerAddressesId");
+		$this->delete("api/customers/delete/$lastCustomerAddressesId", [], ['Authorization'=>'Bearer '.$this->token]);
 		$response = (array) json_decode($this->response->content());
 		$this->assertResponseOk();
 		$this->assertEquals($response['status'], 'success', 'Address of customers deleted test');
@@ -69,6 +83,7 @@ class CustomerAddressesTest extends TestCase
 
     public function testExample()
     {
+		$this->createSession();
 		$this->fetchCustomerAddresses();
 		$this->storeCustomerAddress();
 		$this->updateCustomerAddress();

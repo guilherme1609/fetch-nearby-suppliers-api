@@ -10,10 +10,25 @@ class AddressesTest extends TestCase
      *
      * @return void
      */
+
+	private function createSession()
+	{
+		$login = [
+			"email"=> "usuariophpunit@phpunit.com",
+			"password"=> "123456789"
+		];
+
+		$this->post('api/auth/login', $login);
+		$response = (array) json_decode($this->response->content(), true);
+		if ($response) {
+			$this->token = $response['token']['original']['token'];
+		}
+	}
+
 	private function serchForAddress()
 	{
 		$address = 'Av.%20N.%20Sra.%20Aparecida,%20582,%20Curitiba,%20PR';
-		$this->get("api/address/fetch-address?address=$address");
+		$this->get("api/address/search-addresses?address=$address", ['Authorization' => 'Bearer ' . $this->token]);
 
 		$response = (array) json_decode($this->response->content());
 		$this->assertResponseOk();
@@ -25,7 +40,7 @@ class AddressesTest extends TestCase
 	{
 		$address = 'Casa%20Verde,%20582,%20Curitiba,%20PR';
 
-		$this->get("api/address/fetch-address?address=$address");
+		$this->get("api/address/search-addresses?address=$address", ['Authorization' => 'Bearer ' . $this->token]);
 
 		$response = (array) json_decode($this->response->content());
 		$this->assertResponseOk();
@@ -36,7 +51,7 @@ class AddressesTest extends TestCase
 	{
 		$address = 'Casa%20Verde,%20Curitiba,%20PR';
 
-		$this->get("api/address/fetch-address?address=$address");
+		$this->get("api/address/search-addresses?address=$address", ['Authorization' => 'Bearer ' . $this->token]);
 
 		$response = (array) json_decode($this->response->content());
 		$this->assertResponseOk();
@@ -46,6 +61,7 @@ class AddressesTest extends TestCase
 
     public function testExample()
     {
+		$this->createSession();
         $this->serchForAddress();
         $this->serchForUnknownAddress();
         $this->serchForIncompleteAddress();
