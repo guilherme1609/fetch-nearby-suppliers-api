@@ -33,6 +33,8 @@ class CustomerAddressesTest extends TestCase
 		$this->assertResponseOk();
 		$this->assertEquals($response['status'], 'success', 'Searching for address of customers test');
 		$this->assertNotEmpty($response['data']);
+		$this->assertIsArray($response['data']);
+		$this->assertTrue(count($response['data']) > 0);
 	}
 
 	private function storeCustomerAddress()
