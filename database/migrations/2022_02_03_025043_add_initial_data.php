@@ -124,16 +124,16 @@ class AddInitialData extends Migration
 	];
 
 	private $dummyCustomerAddress = [
-		['name' => 'casa', 'customers_id' => 1, 'addresses_id' => 1],
-		['name' => 'casa', 'customers_id' => 2, 'addresses_id' => 2],
-		['name' => 'casa', 'customers_id' => 3, 'addresses_id' => 3],
-		['name' => 'casa', 'customers_id' => 4, 'addresses_id' => 4],
-		['name' => 'casa', 'customers_id' => 5, 'addresses_id' => 5],
-		['name' => 'casa', 'customers_id' => 6, 'addresses_id' => 6],
-		['name' => 'casa', 'customers_id' => 7, 'addresses_id' => 7],
-		['name' => 'casa', 'customers_id' => 8, 'addresses_id' => 8],
-		['name' => 'casa', 'customers_id' => 9, 'addresses_id' => 9],
-		['name' => 'casa', 'customers_id' => 10, 'addresses_id' => 10]
+		['name' => 'Loja 1', 'suppliers_id' => 1, 'addresses_id' => 1],
+		['name' => 'Loja 2', 'suppliers_id' => 2, 'addresses_id' => 2],
+		['name' => 'Loja 3', 'suppliers_id' => 3, 'addresses_id' => 3],
+		['name' => 'Loja 4', 'suppliers_id' => 4, 'addresses_id' => 4],
+		['name' => 'Loja 5', 'suppliers_id' => 5, 'addresses_id' => 5],
+		['name' => 'Loja 6', 'suppliers_id' => 6, 'addresses_id' => 6],
+		['name' => 'Loja 7', 'suppliers_id' => 7, 'addresses_id' => 7],
+		['name' => 'Loja 8', 'suppliers_id' => 8, 'addresses_id' => 8],
+		['name' => 'Loja 9', 'suppliers_id' => 9, 'addresses_id' => 9],
+		['name' => 'Loja 10', 'suppliers_id' => 10, 'addresses_id' => 10]
 	];
 
 	private $dummySuppliers = [
@@ -150,16 +150,16 @@ class AddInitialData extends Migration
 	];
 
 	private $dummySuppliersAddress = [
-		['name' => 'casa', 'suppliers_id' => 1, 'addresses_id' => 1],
-		['name' => 'casa', 'suppliers_id' => 2, 'addresses_id' => 2],
-		['name' => 'casa', 'suppliers_id' => 3, 'addresses_id' => 3],
-		['name' => 'casa', 'suppliers_id' => 4, 'addresses_id' => 4],
-		['name' => 'casa', 'suppliers_id' => 5, 'addresses_id' => 5],
-		['name' => 'casa', 'suppliers_id' => 6, 'addresses_id' => 6],
-		['name' => 'casa', 'suppliers_id' => 7, 'addresses_id' => 7],
-		['name' => 'casa', 'suppliers_id' => 8, 'addresses_id' => 8],
-		['name' => 'casa', 'suppliers_id' => 9, 'addresses_id' => 9],
-		['name' => 'casa', 'suppliers_id' => 10, 'addresses_id' => 10]
+		['name' => 'Centro de distribuição 1', 'customers_id' => 1, 'addresses_id' => 1],
+		['name' => 'Centro de distribuição 2', 'customers_id' => 2, 'addresses_id' => 2],
+		['name' => 'Centro de distribuição 3', 'customers_id' => 3, 'addresses_id' => 3],
+		['name' => 'Centro de distribuição 4', 'customers_id' => 4, 'addresses_id' => 4],
+		['name' => 'Centro de distribuição 5', 'customers_id' => 5, 'addresses_id' => 5],
+		['name' => 'Centro de distribuição 6', 'customers_id' => 6, 'addresses_id' => 6],
+		['name' => 'Centro de distribuição 7', 'customers_id' => 7, 'addresses_id' => 7],
+		['name' => 'Centro de distribuição 8', 'customers_id' => 8, 'addresses_id' => 8],
+		['name' => 'Centro de distribuição 9', 'customers_id' => 9, 'addresses_id' => 9],
+		['name' => 'Centro de distribuição 10', 'customers_id' => 10, 'addresses_id' => 10]
 	];
 
 	/**

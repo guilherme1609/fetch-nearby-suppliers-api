@@ -66,18 +66,11 @@ class UserTest extends TestCase
 		$this->assertEquals($response['status'], 'success', 'Register user test');
 	}
 
-	private function deleteUser()
-	{
-		DB::table('users')->whereNull('deleted_at')->orderBy('id', 'desc')->limit(1)->delete();
-		$this->assertTrue(true);
-	}
-
     public function testExample()
     {
 		$this->registerUser();
 		$this->login();
 		$this->me();
 		$this->loginUnknownUser();
-		$this->deleteUser();
     }
 }

@@ -32,9 +32,9 @@ class CustomerAddressesTest extends TestCase
 		$response = (array) json_decode($this->response->content());
 		$this->assertResponseOk();
 		$this->assertEquals($response['status'], 'success', 'Searching for address of customers test');
-		$this->assertNotEmpty($response['data']);
-		$this->assertIsArray($response['data']);
-		$this->assertTrue(count($response['data']) > 0);
+		$this->assertNotEmpty($response['customerAddresses']);
+		$this->assertIsArray($response['customerAddresses']);
+		$this->assertTrue(count($response['customerAddresses']) > 0);
 	}
 
 	private function storeCustomerAddress()

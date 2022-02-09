@@ -18,6 +18,7 @@ class CustomersAddressesRepository
 			'addresses.city',
 			'addresses.state',
 			'addresses.country',
+			DB::raw("concat(addresses.street, ', ',addresses.number, ', ', addresses.neighborhood, ', ', addresses.city, ', ', addresses.state) as address"),
 			'addresses.lat',
 			'addresses.long'
 		)

@@ -18,9 +18,9 @@ class CustomersAddressesController extends Controller implements AddressesInterf
 		$res = $customerAddressesDomain->getCustomerAddresses($customerId);
 
 		if ($res && count($res) > 0) {
-			return response()->json(['status' => 'success', 'data' => $res]);
+			return response()->json(['status' => 'success', 'customerAddresses' => $res]);
 		} else if (!$res || count($res) == 0) {
-			return response()->json(['status' => 'success', 'data' => $res, 'message' => 'Você ainda não possui um endereço cadastrado!']);
+			return response()->json(['status' => 'success', 'customerAddresses' => $res, 'message' => 'Você ainda não possui um endereço cadastrado!']);
 		} else {
 			return response()->json(['status' => 'error', 'message' => 'Não foi possível carregar os endereços, por favor tente mais tarde!']);
 		}
