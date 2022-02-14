@@ -24,28 +24,31 @@ class SuppliersDomain extends SuppliersRepository
 		if (!$customerId) {
 			return false;
 		}
-		$customerData = [];
+		$customerSupplierAddress = [];
 		$suppliersData = [];
 		$suppliers = [];
 		$allSuppliers = $this->fetchAllNearbySuppliers($customerId);
 		if ($allSuppliers) {
 
 			foreach ($allSuppliers as $i => $supplier) {
-				$customerData[$supplier->customerAddress] = [
+
+				$customerSupplierAddress[$supplier->customerAddress] = [
 					'id' => $supplier->customerAddress,
-					'idCustomer' => $supplier->idCustomer,
-					'name' => $supplier->customer,
-					'addressName' => $supplier->addressName,
-					'address' => $supplier->address,
-					'customer_street' => $supplier->customer_street,
-					'customer_number' => $supplier->customer_number,
-					'customer_postal_code' => $supplier->customer_postal_code,
-					'customer_neighborhood' => $supplier->customer_neighborhood,
-					'customer_city' => $supplier->customer_city,
-					'customer_state' => $supplier->customer_state,
-					'customer_country' => $supplier->customer_country,
-					'customer_lat' => $supplier->customer_lat,
-					'customer_long' => $supplier->customer_long
+					'name' => $supplier->addressName,
+					'customer'=>[
+						'id' => $supplier->idCustomer,
+						'name' => $supplier->customer,
+						'address' => $supplier->address,
+						'street' => $supplier->customer_street,
+						'number' => $supplier->customer_number,
+						'postal_code' => $supplier->customer_postal_code,
+						'neighborhood' => $supplier->customer_neighborhood,
+						'city' => $supplier->customer_city,
+						'state' => $supplier->customer_state,
+						'country' => $supplier->customer_country,
+						'lat' => $supplier->customer_lat,
+						'long' => $supplier->customer_long
+					]
 				];
 
 				$suppliersData[$supplier->customerAddress][] = [
@@ -64,22 +67,24 @@ class SuppliersDomain extends SuppliersRepository
 				];
 			}
 
-			foreach ($customerData as $i => $customer) {
+			// Cleaner array, reset index
+			foreach ($customerSupplierAddress as $i => $customer) {
 				$suppliers[] = [
 					'id'=>$customer['id'],
-					'idCustomer'=>$customer['idCustomer'],
 					'name'=>$customer['name'],
-					'addressName'=>$customer['addressName'],
-					'address'=>$customer['address'],
-					'street' => $customer['customer_street'],
-					'number' => $customer['customer_number'],
-					'postal_code' => $customer['customer_postal_code'],
-					'neighborhood' => $customer['customer_neighborhood'],
-					'city' => $customer['customer_city'],
-					'state' => $customer['customer_state'],
-					'country' => $customer['customer_country'],
-					'lat' => $customer['customer_lat'],
-					'long' => $customer['customer_long'],
+					'customer'=>[
+						'name'=>$customer['customer']['name'],
+						'address'=>$customer['customer']['address'],
+						'street' => $customer['customer']['street'],
+						'number' => $customer['customer']['number'],
+						'postal_code' => $customer['customer']['postal_code'],
+						'neighborhood' => $customer['customer']['neighborhood'],
+						'city' => $customer['customer']['city'],
+						'state' => $customer['customer']['state'],
+						'country' => $customer['customer']['country'],
+						'lat' => $customer['customer']['lat'],
+						'long' => $customer['customer']['long'],
+					],
 					'suppliers'=>$suppliersData[$i]
 				];
 			}

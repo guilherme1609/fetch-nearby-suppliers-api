@@ -37,7 +37,7 @@ class SuppliersRepository
 			})
 			->whereNull('suppliers_addresses.deleted_at')
 			->whereRaw("(6371 * ACOS(COS(RADIANS($latitude)) * COS(RADIANS(`lat`)) * COS(RADIANS(`long`) - RADIANS($longitude)) + SIN(RADIANS($latitude)) * SIN(RADIANS(lat)))) <= `suppliers`.`range`")
-			->orderBy('distance')
+			// ->orderBy('distance')
 			->get()->toArray();
 	}
 
@@ -65,7 +65,7 @@ class SuppliersRepository
 		->join('addresses', function($join) {
 			$join->on('addresses.id', '=', 'suppliers_addresses.addresses_id');
 			$join->whereNull('addresses.deleted_at');
-		});
+		})->whereNull('suppliers_addresses.deleted_at');
 
 
 		return DB::table('customers_addresses')->select(
