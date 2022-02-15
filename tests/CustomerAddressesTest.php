@@ -41,7 +41,7 @@ class CustomerAddressesTest extends TestCase
 	{
 		$data = [
 			'name'=>'Casa dos pais',
-			'addresses_id'=>2
+			'address_id'=>2
 		];
 
 		$this->post('api/customers/store', $data, ['Authorization'=>'Bearer '.$this->token]);
@@ -54,7 +54,7 @@ class CustomerAddressesTest extends TestCase
 	{
 		$data = [
 			'name'=>'casa da mãe',
-			'addresses_id'=>3
+			'address_id'=>3
 		];
 		$this->put('api/customers/update/1', $data, ['Authorization'=>'Bearer '.$this->token]);
 		$response = (array) json_decode($this->response->content());
@@ -66,7 +66,7 @@ class CustomerAddressesTest extends TestCase
 	{
 		$data = [
 			'name'=>'casa',
-			'addresses_id'=>1
+			'address_id'=>1
 		];
 		$this->put('api/customers/update/1', $data, ['Authorization'=>'Bearer '.$this->token]);
 		$response = (array) json_decode($this->response->content());
@@ -76,7 +76,7 @@ class CustomerAddressesTest extends TestCase
 
 	private function deleteCustomerAddresses()
 	{
-		$lastCustomerAddressesId = DB::table('customers_addresses')->select('id')->whereNull('deleted_at')->orderBy('id', 'desc')->limit(1)->first()->id;
+		$lastCustomerAddressesId = DB::table('customer_address')->select('id')->whereNull('deleted_at')->orderBy('id', 'desc')->limit(1)->first()->id;
 		$this->delete("api/customers/delete/$lastCustomerAddressesId", [], ['Authorization'=>'Bearer '.$this->token]);
 		$response = (array) json_decode($this->response->content());
 		$this->assertResponseOk();

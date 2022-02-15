@@ -17,8 +17,8 @@ class CreateUser extends Migration
             $table->increments('id');
             $table->string('email')->unique();
 			$table->string('password');
-			$table->unsignedInteger('customers_id');
-			$table->foreign('customers_id')->references('id')->on('customers');
+			$table->unsignedInteger('customer_id');
+			$table->foreign('customer_id')->references('id')->on('customer');
 			$table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

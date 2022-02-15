@@ -57,7 +57,7 @@ class UserTest extends TestCase
 			'email' => $this->email,
 			'password'=> '123456789',
 			'password_confirmation'=> '123456789',
-			'customers_id'=>$this->faker->numberBetween(1,10)
+			'customer_id'=>$this->faker->numberBetween(1,10)
 		];
 
 		$this->post('api/auth/register', $data);

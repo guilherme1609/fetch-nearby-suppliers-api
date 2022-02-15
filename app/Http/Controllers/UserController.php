@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customers;
+use App\Models\Customer;
 use App\Models\User;
 use Dotenv\Repository\RepositoryInterface;
 use Illuminate\Http\Request;
@@ -27,19 +27,20 @@ class UserController extends Controller
 
 		try {
 
-			$customers = new Customers();
-			$customers->name = $request->post('name');
-			if ($customers->save()) {
+			$customer = new Customer();
+			$customer->name = $request->post('name');
+			if ($customer->save()) {
 				$user = new User();
 				$user->email = $request->post('email');
 				$plainPassword = $request->post('password');
 				$user->password = app('hash')->make($plainPassword);
-				$user->customers_id = $customers->id;
+				$user->customer_id = $customer->id;
 				if ($user->save()) {
 					return response()->json(['status' => 'success', 'message' => 'Usuario registrado!'], 201);
 				}
 			}
 		} catch (\Exception $e) {
+			dump($e->getMessage());
 			return response()->json(['status' => 'error', 'message' => 'User Registration Failed!'], 409);
 		}
 	}
@@ -72,13 +73,13 @@ class UserController extends Controller
 	public function me()
 	{
 		$user = $this->guard()->user();
-		$customer = DB::table('customers')->select('name')->whereNull('deleted_at')->where('id', $user->customers_id)->first()->name;
+		$customer = DB::table('customer')->select('name')->whereNull('deleted_at')->where('id', $user->customer_id)->first()->name;
 		if ($user && $customer) {
 			$data = [
 				'id' => $user->id,
 				'name' => $customer,
 				'email' => $user->email,
-				'customer_id' => $user->customers_id
+				'customer_id' => $user->customer_id
 			];
 
 			return response()->json(['status' => 'success', 'data' => $data]);

@@ -13,13 +13,13 @@ class CreateSuppliersAddressesTable extends Migration
      */
     public function up()
     {
-        Schema::create('suppliers_addresses', function (Blueprint $table) {
+        Schema::create('supplier_address', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('name', 45);
-			$table->unsignedInteger('suppliers_id');
-			$table->foreign('suppliers_id')->references('id')->on('suppliers');
-			$table->unsignedInteger('addresses_id');
-			$table->foreign('addresses_id')->references('id')->on('addresses');
+			$table->unsignedInteger('supplier_id');
+			$table->foreign('supplier_id')->references('id')->on('supplier');
+			$table->unsignedInteger('address_id');
+			$table->foreign('address_id')->references('id')->on('address');
 			$table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ class CreateSuppliersAddressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suppliers_addresses');
+        Schema::dropIfExists('supplier_address');
     }
 }

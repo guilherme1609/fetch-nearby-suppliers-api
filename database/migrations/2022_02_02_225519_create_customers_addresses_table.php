@@ -13,14 +13,14 @@ class CreateCustomersAddressesTable extends Migration
      */
     public function up()
     {
-        Schema::create('customers_addresses', function (Blueprint $table) {
+        Schema::create('customer_address', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('name', 45);
 			$table->smallInteger('main_address')->default(0);
-			$table->unsignedInteger('customers_id');
-			$table->foreign('customers_id')->references('id')->on('customers');
-			$table->unsignedInteger('addresses_id');
-			$table->foreign('addresses_id')->references('id')->on('addresses');
+			$table->unsignedInteger('customer_id');
+			$table->foreign('customer_id')->references('id')->on('customer');
+			$table->unsignedInteger('address_id');
+			$table->foreign('address_id')->references('id')->on('address');
 			$table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
@@ -33,6 +33,6 @@ class CreateCustomersAddressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers_addresses');
+        Schema::dropIfExists('customer_address');
     }
 }
