@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 	CONSULTA PARA ENCONTRAR OS FORNECEDORES MAIS PROXIMOS DO ENDEREÇO FORNECIDO QUE ATENDAM AO RAIO ESPECIFICADO PARA ATENDIMENTO
 */
 
+define("EARTH_RADIUS", 6371);
 class SupplierRepository
 {
 	public function fetchNearbySuppliers($latitude, $longitude)
@@ -24,7 +25,7 @@ class SupplierRepository
 			'address.country',
 			'address.lat',
 			'address.long',
-			DB::raw("(6371 * ACOS(COS(RADIANS($latitude)) * COS(RADIANS(`lat`)) * COS(RADIANS(`long`) - RADIANS($longitude)) + SIN(RADIANS($latitude)) * SIN(RADIANS(`lat`)))) AS distance")
+			DB::raw("(".EARTH_RADIUS." * ACOS(COS(RADIANS($latitude)) * COS(RADIANS(`lat`)) * COS(RADIANS(`long`) - RADIANS($longitude)) + SIN(RADIANS($latitude)) * SIN(RADIANS(`lat`)))) AS distance")
 		)
 			->join('supplier', function ($join) {
 				$join->on('supplier.id', '=', 'supplier_address.supplier_id');
@@ -35,7 +36,7 @@ class SupplierRepository
 				$join->whereNull('address.deleted_at');
 			})
 			->whereNull('supplier_address.deleted_at')
-			->whereRaw("(6371 * ACOS(COS(RADIANS($latitude)) * COS(RADIANS(`lat`)) * COS(RADIANS(`long`) - RADIANS($longitude)) + SIN(RADIANS($latitude)) * SIN(RADIANS(lat)))) <= `supplier`.`range`")
+			->whereRaw("(".EARTH_RADIUS." * ACOS(COS(RADIANS($latitude)) * COS(RADIANS(`lat`)) * COS(RADIANS(`long`) - RADIANS($longitude)) + SIN(RADIANS($latitude)) * SIN(RADIANS(lat)))) <= `supplier`.`range`")
 			// ->orderBy('distance')
 			->get()->toArray();
 	}
@@ -108,7 +109,7 @@ class SupplierRepository
 			->joinSub($subQuerySuppliers, 'spad', function($join){})
 			->where('customer_address.customer_id', $customerId)
 			->whereNull('customer_address.deleted_at')
-			->whereRaw("(6371 * ACOS(COS(RADIANS(address.lat)) * COS(RADIANS(spad.lat)) * COS(RADIANS(`spad`.`long`) - RADIANS(`address`.`long`)) + SIN(RADIANS(address.lat)) * SIN(RADIANS(spad.lat)))) <= `spad`.`range`")
+			->whereRaw("(".EARTH_RADIUS." * ACOS(COS(RADIANS(address.lat)) * COS(RADIANS(spad.lat)) * COS(RADIANS(`spad`.`long`) - RADIANS(`address`.`long`)) + SIN(RADIANS(address.lat)) * SIN(RADIANS(spad.lat)))) <= `spad`.`range`")
 			->get()->toArray();
 	}
 }
