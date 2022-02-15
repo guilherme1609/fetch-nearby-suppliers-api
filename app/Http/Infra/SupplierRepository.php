@@ -36,7 +36,7 @@ class SupplierRepository
 				$join->whereNull('address.deleted_at');
 			})
 			->whereNull('supplier_address.deleted_at')
-			->whereRaw("(".EARTH_RADIUS." * ACOS(COS(RADIANS($latitude)) * COS(RADIANS(`lat`)) * COS(RADIANS(`long`) - RADIANS($longitude)) + SIN(RADIANS($latitude)) * SIN(RADIANS(lat)))) <= `supplier`.`range`")
+			->whereRaw("(".EARTH_RADIUS." * ACOS(COS(RADIANS($latitude)) * COS(RADIANS(`lat`)) * COS(RADIANS(`long`) - RADIANS($longitude)) + SIN(RADIANS($latitude)) * SIN(RADIANS(lat)))) < `supplier`.`range`")
 			// ->orderBy('distance')
 			->get()->toArray();
 	}
@@ -96,7 +96,8 @@ class SupplierRepository
 			'spad.state',
 			'spad.country',
 			'spad.lat',
-			'spad.long'
+			'spad.long',
+			DB::raw("(".EARTH_RADIUS." * ACOS(COS(RADIANS(address.lat)) * COS(RADIANS(spad.lat)) * COS(RADIANS(`spad`.`long`) - RADIANS(`address`.`long`)) + SIN(RADIANS(address.lat)) * SIN(RADIANS(spad.lat)))) as distance")
 			)
 			->join('customer', function ($join) {
 				$join->on('customer.id', '=', 'customer_address.customer_id');
@@ -109,7 +110,8 @@ class SupplierRepository
 			->joinSub($subQuerySuppliers, 'spad', function($join){})
 			->where('customer_address.customer_id', $customerId)
 			->whereNull('customer_address.deleted_at')
-			->whereRaw("(".EARTH_RADIUS." * ACOS(COS(RADIANS(address.lat)) * COS(RADIANS(spad.lat)) * COS(RADIANS(`spad`.`long`) - RADIANS(`address`.`long`)) + SIN(RADIANS(address.lat)) * SIN(RADIANS(spad.lat)))) <= `spad`.`range`")
+			->whereRaw("(".EARTH_RADIUS." * ACOS(COS(RADIANS(address.lat)) * COS(RADIANS(spad.lat)) * COS(RADIANS(`spad`.`long`) - RADIANS(`address`.`long`)) + SIN(RADIANS(address.lat)) * SIN(RADIANS(spad.lat)))) < `spad`.`range`")
+			->orderBy('customerAddress')->orderBy('distance')
 			->get()->toArray();
 	}
 }

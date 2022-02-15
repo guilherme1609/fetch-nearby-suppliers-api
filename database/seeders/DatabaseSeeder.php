@@ -133,7 +133,9 @@ class DatabaseSeeder extends Seeder
 		['name' => 'Loja 7', 'customer_id' => 7, 'address_id' => 7],
 		['name' => 'Loja 8', 'customer_id' => 8, 'address_id' => 8],
 		['name' => 'Loja 9', 'customer_id' => 9, 'address_id' => 9],
-		['name' => 'Loja 10','customer_id' => 10, 'address_id' => 10]
+		['name' => 'Loja 10','customer_id' => 10, 'address_id' => 9],
+		['name' => 'Loja 11','customer_id' => 10, 'address_id' => 8],
+		['name' => 'Loja 12','customer_id' => 10, 'address_id' => 10]
 	];
 
 	private $dummySuppliers = [
@@ -156,10 +158,7 @@ class DatabaseSeeder extends Seeder
 		['name' => 'Centro de distribuição 4', 'supplier_id' => 4, 'address_id' => 4],
 		['name' => 'Centro de distribuição 5', 'supplier_id' => 5, 'address_id' => 5],
 		['name' => 'Centro de distribuição 6', 'supplier_id' => 6, 'address_id' => 6],
-		['name' => 'Centro de distribuição 7', 'supplier_id' => 7, 'address_id' => 7],
-		['name' => 'Centro de distribuição 8', 'supplier_id' => 8, 'address_id' => 8],
-		['name' => 'Centro de distribuição 9', 'supplier_id' => 9, 'address_id' => 9],
-		['name' => 'Centro de distribuição 10','supplier_id' => 10, 'address_id' => 10]
+		['name' => 'Centro de distribuição 7', 'supplier_id' => 7, 'address_id' => 7]
 	];
 
 	private function createUser()

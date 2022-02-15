@@ -13,7 +13,7 @@ class CustomerController extends Controller
 		$user = Auth::guard()->user();
 		$customerId = $user->customer_id;
 		$suppliersDomain = new SupplierDomain();
-		$resSuppliers = $suppliersDomain->getAllSuppliers($customerId);
+		$resSuppliers = $suppliersDomain->getAllSuppliersOfCustomer($customerId);
 
 		if ($resSuppliers) {
 			return response()->json(['status'=>'success', 'data'=>$resSuppliers]);
